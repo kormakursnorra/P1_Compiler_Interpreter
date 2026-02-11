@@ -1,18 +1,19 @@
 class LToken():
-    def __init__(
-            self, ID, ASSIGN, SEMICOL, INT, PLUS, MINUS,
-            MULT, LPAREN, RPAREN, PRINT, END, ERROR
-            ):
-        self.ID = ID
-        self.ASSIGN = ASSIGN
-        self.SEMICOL = SEMICOL
-        self.INT = INT
-        self.PLUS = PLUS
-        self.MINUS = MINUS
-        self.MULT = MULT
-        self.LPAREN = LPAREN
-        self.RPAREN = RPAREN
-        self.PRINT = PRINT
-        self.END = END
-        self.ERROR = ERROR
+    ID = 0
+    ASSIGN = 1
+    SEMICOL = 2
+    INT = 3
+    PLUS = 4
+    MINUS = 5
+    MULT = 6
+    LPAREN = 7
+    RPAREN = 8
+    PRINT = 9
+    END = 10
+    ERROR = 11
+
+    def __init__(self, lexeme, token_code):
+        self.lexeme = lexeme
+        self.token_code = token_code
+    
 
