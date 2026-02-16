@@ -10,12 +10,12 @@ class LParser():
 
     def error(self):
         print("Syntax error")
-        sys.exit(1)
+        sys.exit()
 
     def parse(self):
         self.next_token()
         self.statements()
-        print('\n')  # Make sure it ends with newline
+        print()
 
     def next_token(self):
         self.curr_token = self.lexer.get_next_token()
@@ -31,18 +31,18 @@ class LParser():
 
             if self.curr_token.token_code != LToken.SEMICOL:
                 self.error()
-        
-            self.next_token()
-            self.statements()
+            else:
+                self.next_token()
+                self.statements()
 
     
     def statement(self):
         if self.curr_token.token_code == LToken.ID:
             id_lexeme = self.curr_token.lexeme
+            print(f"PUSH {id_lexeme}")
             self.next_token()
 
             if self.curr_token.token_code == LToken.ASSIGN:
-                print(f"PUSH {id_lexeme}")
                 self.next_token()
                 self.expr()
                 print("ASSIGN")
@@ -51,10 +51,6 @@ class LParser():
             
         elif self.curr_token.token_code == LToken.PRINT:
             self.next_token()
-
-            if self.curr_token.token_code != LToken.ID:
-                self.error()
-            
             print(f"PUSH {self.curr_token.lexeme}")
             print("PRINT")
             self.next_token()
@@ -98,8 +94,8 @@ class LParser():
 
             if self.curr_token.token_code != LToken.RPAREN:
                 self.error()
-            
-            self.next_token()
+            else:
+                self.next_token()
         
         else:
             self.error()

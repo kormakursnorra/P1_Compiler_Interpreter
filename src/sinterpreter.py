@@ -6,9 +6,8 @@ class SInterpreter:
         self.variables = {} 
 
     def push(self, operand):
-        if operand.lstrip('-').isdigit():
+        if operand.isdigit():
             self.stack.append(int(operand)) 
-
         else:
             self.stack.append(operand)
 
@@ -20,16 +19,16 @@ class SInterpreter:
     def add(self):
         if len(self.stack) < 2:
             print("Error for operator: ADD")
-            sys.exit(1)
+            sys.exit()
         
-        val2 = self.get_value(self.stack.pop())
         val1 = self.get_value(self.stack.pop())
+        val2 = self.get_value(self.stack.pop())
         self.stack.append(val1 + val2)
 
     def sub(self):
         if len(self.stack) < 2:
             print("Error for operator: SUB")
-            sys.exit(1)
+            sys.exit()
 
         val1 = self.get_value(self.stack.pop())
         val2 = self.get_value(self.stack.pop())
@@ -38,50 +37,40 @@ class SInterpreter:
     def mult(self):
         if len(self.stack) < 2:
             print("Error for operator: MULT")
-            sys.exit(1)
+            sys.exit()
 
-        val2 = self.get_value(self.stack.pop())
         val1 = self.get_value(self.stack.pop())
+        val2 = self.get_value(self.stack.pop())
         self.stack.append(val1 * val2)
 
     def assign(self):
         if len(self.stack) < 2:
             print("Error for operator: ASSIGN")
-            sys.exit(1)
+            sys.exit()
         
         value = self.get_value(self.stack.pop())
         var_name = self.stack.pop()
-
-        if not isinstance(var_name, str):
-            print("Error for operator: ASSIGN")
-            sys.exit(1)
-        
         self.variables[var_name] = value
 
     def print_top(self):
         if len(self.stack) < 1:
             print("Error operator: PRINT")
-            sys.exit(1)
+            sys.exit()
         
-        value = self.get_value(self.stack[-1])
+        value = self.get_value(self.stack.pop())
         print(value)
     
     def cycle(self):
         for line in sys.stdin:
-            line = line.strip()
+            operation = line.strip().split()
 
-            if not line:
+            if not operation:
                 continue
             
-            parts = line.split(maxsplit=1)
-            command = parts[0]
+            command = operation[0]
 
             if command == "PUSH":
-                if len(parts) < 2:
-                    print(f"Error for operator: PUSH")
-                    sys.exit(1)
-                operand = parts[1]
-                self.push(operand)
+                self.push(operation[1])
             
             elif command == "ADD":
                 self.add()
@@ -100,7 +89,7 @@ class SInterpreter:
             
             else:
                 print(f"Error for operator: {command}")
-                sys.exit(1)
+                sys.exit()
 
 if __name__ == "__main__":
     interpreter = SInterpreter()
